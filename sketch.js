@@ -5,11 +5,12 @@ function setup() {
 	
 	Per default liegt die Framerate bei 60 fps */
 
-	frameRate(24);
-	
+	// frameRate(24);
+
+
 	createCanvas(400, 400);
 }
 
 function draw() {
-	background(220);
+	
 }
