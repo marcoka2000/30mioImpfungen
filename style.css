@@ -1,8 +1,12 @@
 body {
-	background-color: #f5f6f7;
+	background-color: #fff;
 }
 
 #svgSpritze {
 	margin-left: 40px;
 	margin-top: 24px;
+}
+
+#svgContainer{
+	margin-left: 40px;
 }

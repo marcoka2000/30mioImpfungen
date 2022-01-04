@@ -2,7 +2,7 @@
 
 let table
 let data
-let startDate = "2021-11-18"
+let startDate = "2021-12-01"
 
 let dateDE = startDate.split("-")
 
@@ -12,17 +12,17 @@ function preload () {
 }
 
 function setup() {
-	createCanvas(600, 160)
+	createCanvas(600, 196)
 
 	data = table.getRow(1) 
 
 	startRow = findStartRow(startDate)
 	endRow = table.getRowCount("date") - 1
 
-	anzahl = countVax(startRow, endRow).toLocaleString();
+	anzahl = countVax(startRow, endRow)
 
-	statText(anzahl)
-	spritze()
+	statText(anzahl.toLocaleString())
+	spritze(anzahl)
 }
 
 function draw() {}
@@ -52,24 +52,50 @@ function countVax(startRow, endRow){
 function checkDate(){}
 
 function statText(total){
+	noStroke()
 
-	fill(51, 146, 197)
+	fill(17, 19, 20)	
 	textSize(18)
 	textStyle(BOLD)
 	text("Was ist aus den \"30 Millionen Impfungen\nbis Weihnachten” geworden?", 40, 40)
 
+	fill(17, 19, 20, 20)
+	rect(36, 96, width, 1)
+
 	textSize(12)
+
+
+	fill(17, 19, 20)
+	text("Impfungen seit " + dateDE[2] + "." + dateDE[1] + "." + dateDE[0], 40, 136)
+
 	textStyle(NORMAL)
-
-	text("Impfungen seit " + dateDE[2] + "." + dateDE[1] + "." + dateDE[0], 40, 100)
-
-	fill(157, 204, 229)
-	text(total, 40, 120)
+	// fill(157, 204, 229)
+	text(total, 40, 152)
 }
 
-function spritze(){	
-	let img = document.createElement("img")
-	document.body.appendChild(img)
-	img.id = "svgSpritze"
-	img.src = "spritze.svg"
+function spritze(total){	
+	let svg = document.createElement("div")
+	svg.setAttribute("id", "svgContainer")
+	let main = document.getElementsByTagName("main")
+
+	document.body.appendChild(svg)
+
+	xhr = new XMLHttpRequest();
+	xhr.open("GET", "spritze.svg", false);
+	// Following line is just to be on the safe side;
+	// not needed if your server delivers SVG with correct MIME type
+	//xhr.overrideMimeType("image/svg+xml");
+
+	xhr.onload = function(e) {
+	// You might also want to check for xhr.readyState/xhr.status here
+	document.getElementById("svgContainer")
+		.appendChild(xhr.responseXML.documentElement);
+	};
+	xhr.send("");
+	
+	let impfe = document.getElementById("impfe")
+
+	let w = total / 300000 * 2
+	impfe.setAttribute("width", w)
+	console.log(w)
 }
